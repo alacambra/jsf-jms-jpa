@@ -2,12 +2,9 @@ package poolingpeople.prototype.controller;
 
 import poolingpeople.prototype.model.User;
 
-import javax.ejb.BeforeCompletion;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
-import javax.lang.model.element.Name;
 import javax.persistence.*;
+import java.util.Collection;
 
 /**
  * Created by alacambra on 18.11.14.
@@ -17,8 +14,8 @@ public class UserController {
 
     private User current;
     private static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("prototype");
-    private EntityManager entityManager = entityManagerFactory.createEntityManager();
-    private EntityTransaction entityTransaction = entityManager.getTransaction();
+    private EntityManager em = entityManagerFactory.createEntityManager();
+    private EntityTransaction entityTransaction = em.getTransaction();
 
     public String getText(){
         return "my test";
@@ -34,7 +31,14 @@ public class UserController {
 
     public void saveUser(){
         System.out.println(current.getName() + current.toString());
-        entityManager.persist(current);
+        entityTransaction.begin();
+        em.persist(current);
+        entityTransaction.commit();
         current = null;
     }
+
+    public Collection<User> getUsers(){
+        return em.createQuery("from User").getResultList();
+    }
+
 }

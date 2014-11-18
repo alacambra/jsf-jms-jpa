@@ -10,6 +10,12 @@
         <label>name</label>
         <h:inputText value="#{userController.current.name}">#{userController.current.name}</h:inputText>
         <h:commandButton id="saveUser" action="#{userController.saveUser()}" value="save"></h:commandButton>
+
     </h:form>
+    <ui:repeat value="#{userController.users}" var="user">
+        <li>
+            #{user.name}
+        </li>
+    </ui:repeat>
 </f:view>
 </html>
