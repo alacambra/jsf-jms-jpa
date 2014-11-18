@@ -1,5 +1,6 @@
 package poolingpeople.prototype.controller;
 
+import poolingpeople.prototype.jms.NotificationConsumer;
 import poolingpeople.prototype.model.User;
 
 import javax.faces.bean.ManagedBean;
@@ -38,6 +39,9 @@ public class UserController {
     }
 
     public Collection<User> getUsers(){
+        NotificationConsumer notificationConsumer = new NotificationConsumer();
+        notificationConsumer.consumeNotification();
+
         return em.createQuery("from User").getResultList();
     }
 
